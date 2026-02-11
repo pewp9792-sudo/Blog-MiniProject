@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Blog Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="menu-icon" id="menuToggle">
+                <i class="bi bi-list"></i>
+            </div>
+            <div class="sidebar-title">Blog</div>
+        </div>
+
+        <div class="admin-label">ADMIN</div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" id="myArticleLink">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>My Article</span>
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu" id="articleSubmenu">
+                    <li class="nav-item">
+                        <a href="my-articles.html" class="nav-link">All Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="create-article.html" class="nav-link">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="categories.html" class="nav-link active">
+                    <i class="bi bi-tag"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="profile.html" class="nav-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: 30px;">
+                <a href="#" class="nav-link logout-link" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">Categories</div>
+            <div class="user-profile" id="userProfile">
+                <span class="user-name" id="userName">Loading...</span>
+                <div class="user-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <div class="content-header">
+                <h1 class="content-title">All Categories</h1>
+                <button class="btn btn-create" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                    <i class="bi bi-plus-lg"></i> Add Category
+                </button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar mb-4">
+                <i class="bi bi-search"></i>
+                <input type="text" class="search-input" placeholder="Search categories..." id="searchInput">
+            </div>
+
+            <!-- Categories Table -->
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Description</th>
+                            <th>Articles</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTable">
+                        <!-- Loading State -->
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId">
+                        
+                        <div class="form-group mb-3">
+                            <label for="categoryName">Name *</label>
+                            <input type="text" class="form-control" id="categoryName" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="categorySlug">Slug *</label>
+                            <input type="text" class="form-control" id="categorySlug" required>
+                            <small class="form-text">Auto-generated from name</small>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="categoryDescription">Description</label>
+                            <textarea class="form-control" id="categoryDescription" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="categoryColor">Color</label>
+                            <input type="color" class="form-control form-control-color" id="categoryColor" value="#3b82f6">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/script/main.js"></script>
+    <script src="/script/categories.js"></script>
+</body>
+</html>
