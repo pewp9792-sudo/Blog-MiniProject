@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Details - Blog Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="menu-icon" id="menuToggle">
+                <i class="bi bi-list"></i>
+            </div>
+            <div class="sidebar-title">Blog</div>
+        </div>
+
+        <div class="admin-label">ADMIN</div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active" id="myArticleLink">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>My Article</span>
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu show" id="articleSubmenu">
+                    <li class="nav-item">
+                        <a href="my-articles.html" class="nav-link">All Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="create-article.html" class="nav-link">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="categories.html" class="nav-link">
+                    <i class="bi bi-tag"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="profile.html" class="nav-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: 30px;">
+                <a href="#" class="nav-link logout-link" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">Article Details</div>
+            <div class="user-profile" id="userProfile">
+                <span class="user-name" id="userName">Loading...</span>
+                <div class="user-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <div class="article-detail-container">
+                <!-- Loading State -->
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Article Content -->
+                <div class="article-detail" id="articleDetail" style="display: none;">
+                    <div class="article-detail-header">
+                        <a href="my-articles.html" class="btn-back">
+                            <i class="bi bi-arrow-left"></i> Back to Articles
+                        </a>
+                        <div class="article-actions">
+                            <button class="btn btn-secondary" id="editBtn">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            <button class="btn btn-danger" id="deleteBtn">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="article-detail-content">
+                        <div class="article-meta">
+                            <span class="badge bg-primary" id="categoryBadge">Category</span>
+                            <span class="article-date" id="articleDate">January 1, 2024</span>
+                        </div>
+
+                        <h1 class="article-detail-title" id="articleTitle">Article Title</h1>
+
+                        <div class="article-author-info">
+                            <div class="author-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="author-details">
+                                <p class="author-name" id="articleAuthor">Author Name</p>
+                                <p class="author-date" id="articleCreatedAt">Published on Jan 1, 2024</p>
+                            </div>
+                        </div>
+
+                        <div class="article-stats">
+                            <div class="stat-item">
+                                <i class="bi bi-eye"></i>
+                                <span id="articleViews">0</span> Views
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-heart"></i>
+                                <span id="articleLikes">0</span> Likes
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-chat"></i>
+                                <span id="articleComments">0</span> Comments
+                            </div>
+                        </div>
+
+                        <div class="article-image-container" id="articleImageContainer">
+                            <img src="" alt="Article Image" id="articleImage" class="article-detail-image">
+                        </div>
+
+                        <div class="article-body" id="articleBody">
+                            <p>Article content will be loaded here...</p>
+                        </div>
+
+                        <div class="article-tags" id="articleTags">
+                            <!-- Tags will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="../script/main.js"></script> -->
+    <script src="../script/article-detail.js"></script>
+</body>
+</html>

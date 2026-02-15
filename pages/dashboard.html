@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Blog Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="menu-icon" id="menuToggle">
+                <i class="bi bi-list"></i>
+            </div>
+            <div class="sidebar-title">Blog</div>
+        </div>
+
+        <div class="admin-label">ADMIN</div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="../pages/dashboard.html" class="nav-link active">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" id="myArticleLink">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>My Article</span>
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu" id="articleSubmenu">
+                    <li class="nav-item">
+                        <a href="../pages/my-articles.html" class="nav-link">All Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../pages/create-article.html" class="nav-link">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="../pages/categories.html" class="nav-link">
+                    <i class="bi bi-tag"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="../pages/profile.html" class="nav-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: 30px;">
+                <a href="#" class="nav-link logout-link" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">Dashboard</div>
+            <div class="user-profile" id="userProfile">
+                <span class="user-name" id="userName">Loading...</span>
+                <div class="user-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #3b82f6;">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalArticles">0</h3>
+                        <p>Total Articles</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #10b981;">
+                        <i class="bi bi-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalViews">0</h3>
+                        <p>Total Views</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f59e0b;">
+                        <i class="bi bi-tag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalCategories">0</h3>
+                        <p>Categories</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #8b5cf6;">
+                        <i class="bi bi-heart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalLikes">0</h3>
+                        <p>Total Likes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Articles Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Recent Articles</h2>
+                    <a href="../pages/my-articles.html" class="btn-link">View All</a>
+                </div>
+                
+                <div class="articles-grid" id="recentArticles">
+                    <!-- Articles will be loaded here -->
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/script/main.js"></script>
+    <script src="/script/dashboard.js"></script>
+</body>
+</html>

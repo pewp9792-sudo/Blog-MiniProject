@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Article - Blog Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/style/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="menu-icon" id="menuToggle">
+                <i class="bi bi-list"></i>
+            </div>
+            <div class="sidebar-title">Blog</div>
+        </div>
+
+        <div class="admin-label">ADMIN</div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active" id="myArticleLink">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>My Article</span>
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu show" id="articleSubmenu">
+                    <li class="nav-item">
+                        <a href="my-articles.html" class="nav-link">All Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="create-article.html" class="nav-link active">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="categories.html" class="nav-link">
+                    <i class="bi bi-tag"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="profile.html" class="nav-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: 30px;">
+                <a href="#" class="nav-link logout-link" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">Create Article</div>
+            <div class="user-profile" id="userProfile">
+                <span class="user-name" id="userName">Loading...</span>
+                <div class="user-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1 class="form-title">Create New Article</h1>
+                </div>
+
+                <form id="createArticleForm" class="article-form">
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="title">Article Title *</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter article title" required>
+                            <span id = 'errorTitle' class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            <label for="category">Category *</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option>Select Category</option>
+                                <!-- <option value="">ant</option> -->
+                                <!-- Categories will be loaded here -->
+                            </select>
+                            <span id = 'errorCategory' class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Featured Image</label>
+                        <div class="image-upload">
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <span id = 'errorimage' class="text-danger"></span>
+                            <div class="previewImage">
+                                <!-- <img id="preview" class="object-fit-cover"> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Content *</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" placeholder="Write your article content here..." required></textarea>
+                        <span id = 'errorCotent' class="text-danger"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="my-articles.html" class="btn btn-back border-primary"><i class="bi bi-arrow-left"></i> Back to Article</a>
+                        <button type="button" class="btn btn-primary" onclick="publishArticle()">Publish Article</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/scr/BaseURL.js"></script>
+    <script src="../assets/scr/createArticle.js"></script>
+</body>
+</html>
