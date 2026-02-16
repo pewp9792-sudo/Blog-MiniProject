@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Details - Blog Admin</title>
+    <title>Article Detail - Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../style/style.css">
@@ -67,7 +67,7 @@
     <div class="main-content">
         <!-- Top Bar -->
         <div class="top-bar">
-            <div class="page-title">Article Details</div>
+            <div class="page-title">Article Detail</div>
             <div class="user-profile" id="userProfile">
                 <span class="user-name" id="userName">Loading...</span>
                 <div class="user-avatar">
@@ -90,8 +90,8 @@
                 <!-- Article Content -->
                 <div class="article-detail" id="articleDetail" style="display: none;">
                     <div class="article-detail-header">
-                        <a href="my-articles.html" class="btn-back">
-                            <i class="bi bi-arrow-left"></i> Back to Articles
+                        <a href="dashboard.html" class="btn-back">
+                            <i class="bi bi-arrow-left"></i> Back to Dashboard
                         </a>
                         <div class="article-actions">
                             <button class="btn btn-secondary" id="editBtn">
@@ -153,12 +153,84 @@
         </div>
     </div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <script src="../script/main.js"></script> -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/Js/BaseURL.js"></script>
     <script src="../assets/Js/getProfile.js"></script>
-    <script src="../assets/Js/main.js"></script>
     <script src="../assets/Js/logout.js"></script>
+    
+    <script>
+        // Get article ID from sessionStorage
+        const articleId = sessionStorage.getItem("idArticle");
+        
+        if (!token) {
+            location.href = "../index.html";
+        }
+
+        if (articleId && token) {
+            // Fetch article details
+            fetch(baseUrl + "/articles/" + articleId, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => res.json())
+            .then((response) => {
+                const article = response.data;
+                
+                // Update article details
+                document.getElementById("articleTitle").textContent = article.title;
+                document.getElementById("categoryBadge").textContent = article.category?.name || "Uncategorized";
+                document.getElementById("articleDate").textContent = new Date(article.createdAt).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                });
+                
+                document.getElementById("articleAuthor").textContent = article.creator.firstName + " " + article.creator.lastName;
+                document.getElementById("articleCreatedAt").textContent = "Published on " + new Date(article.createdAt).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                });
+                
+                document.getElementById("articleViews").textContent = article.views || 0;
+                document.getElementById("articleLikes").textContent = article.likes || 0;
+                document.getElementById("articleComments").textContent = article.comments || 0;
+                
+                if (article.thumbnail) {
+                    document.getElementById("articleImage").src = article.thumbnail;
+                }
+                
+                // Display article body (might be HTML or plain text)
+                const bodyElement = document.getElementById("articleBody");
+                if (article.content) {
+                    if (article.content.startsWith("<") || article.content.startsWith("{")) {
+                        bodyElement.innerHTML = article.content;
+                    } else {
+                        bodyElement.textContent = article.content;
+                    }
+                }
+                
+                // Hide loading spinner and show article
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("articleDetail").style.display = "block";
+            })
+            .catch(err => {
+                console.error("Error loading article:", err);
+                document.getElementById("loadingSpinner").innerHTML = '<p class="text-danger">Failed to load article</p>';
+            });
+        }
+
+        // Toggle submenu
+        const myArticleLink = document.getElementById('myArticleLink');
+        const articleSubmenu = document.getElementById('articleSubmenu');
+        if (myArticleLink && articleSubmenu) {
+            myArticleLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                articleSubmenu.style.display = articleSubmenu.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+    </script>
 </body>
 </html>

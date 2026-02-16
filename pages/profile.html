@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - Blog</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="menu-icon" id="menuToggle">
+                <i class="bi bi-list"></i>
+            </div>
+            <div class="sidebar-title">Blog</div>
+        </div>
+
+        <div class="admin-label">ADMIN</div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" id="myArticleLink">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>My Article</span>
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="sub-menu" id="articleSubmenu">
+                    <li class="nav-item">
+                        <a href="my-articles.html" class="nav-link">All Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="create-article.html" class="nav-link">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="categories.html" class="nav-link">
+                    <i class="bi bi-tag"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="profile.html" class="nav-link active">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: 30px;">
+                <a href="#" class="nav-link logout-link" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">User Profile</div>
+            <div class="user-profile" id="userProfile">
+                <span class="user-name" id="userName">Loading...</span>
+                <div class="user-avatar">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <div class="profile-container">
+                
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large">
+                            <img src="" alt="User Avatar" id="userAvatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="fullName">User Name</h2>
+                            <p id="userEmail">user@example.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="profile-tab-content">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailAddress" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="userId" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Registered Date</label>
+                                <input type="text" class="form-control" id="registeredDate" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/Js/BaseURL.js"></script>
+    <script src="../assets/Js/getProfile.js"></script>
+    
+    <script>
+        // Fetch user profile data
+        if (token) {
+            fetch(baseUrl + "/auth/profile", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => res.json())
+            .then((item) => {
+                const data = item.data;
+                
+                // Update profile display
+                document.getElementById("fullName").textContent = data.firstName + " " + data.lastName;
+                document.getElementById("userEmail").textContent = data.email;
+                document.getElementById("userAvatar").src = data.avatar;
+                
+                // Update form fields
+                document.getElementById("firstName").value = data.firstName;
+                document.getElementById("lastName").value = data.lastName;
+                document.getElementById("emailAddress").value = data.email;
+                document.getElementById("userId").value = data.id;
+                
+                // Format registered date
+                const date = new Date(data.registeredAt);
+                const formattedDate = date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                });
+                document.getElementById("registeredDate").value = formattedDate;
+                
+                // Update top bar user name
+                const userNameElement = document.getElementById("userName");
+                if (userNameElement) {
+                    userNameElement.textContent = data.firstName + " " + data.lastName;
+                }
+            })
+            .catch(err => console.error("Profile load error:", err));
+        } else {
+            location.href = "../index.html";
+        }
+
+        // Logout functionality
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                fetch(baseUrl + "/auth/logout", {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.result) {
+                        localStorage.removeItem("token");
+                        location.href = "../index.html";
+                    }
+                })
+                .catch(err => console.error("Logout error:", err));
+            });
+        }
+
+        // Toggle submenu
+        const myArticleLink = document.getElementById('myArticleLink');
+        const articleSubmenu = document.getElementById('articleSubmenu');
+        if (myArticleLink && articleSubmenu) {
+            myArticleLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                articleSubmenu.style.display = articleSubmenu.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+    </script>
+</body>
+</html>
