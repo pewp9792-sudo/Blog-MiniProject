@@ -27,6 +27,15 @@ function getProfile(){
       if (userNameElement) {
         userNameElement.textContent = `${item.data.firstName} ${item.data.lastName}`;
       }
+
+      // Update user avatar in top bar
+      const userAvatarElement = document.querySelector(".user-avatar");
+      if (userAvatarElement && item.data.avatar) {
+        userAvatarElement.innerHTML = `
+          <img src="${item.data.avatar}" alt="${item.data.firstName}" 
+               class="rounded-circle" 
+               style="width: 40px; height: 40px; object-fit: cover;">`;
+      }
     });
 }
 

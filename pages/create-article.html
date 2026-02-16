@@ -1,69 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Article - Blog Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../style/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Blog Admin</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1e1e2f;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100%;
+      padding-bottom: 20px;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0 !important;
+        padding: 15px !important;
+      }
+      .menu-icon {
+        display: block !important;
+      }
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    .menu-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    .menu-icon:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #adb5bd;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-radius: 5px;
+      margin: 0 10px 5px 10px;
+    }
+
+    .nav-link i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background-color: #343a40;
+      color: #fff;
+    }
+
+    .sub-menu {
+      display: none;
+      list-style: none;
+      padding-left: 40px;
+      margin: 5px 0;
+    }
+
+    .sub-menu .nav-link {
+      padding: 8px 20px;
+      font-size: 0.95rem;
+    }
+
+    .admin-label {
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      color: #6c757d;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      padding: 25px;
+      width: 100%;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      font-size: 2rem;
+      color: #495057;
+    }
+
+    .article-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .article-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="menu-icon" id="menuToggle">
-                <i class="bi bi-list"></i>
-            </div>
-            <div class="sidebar-title">Blog</div>
-        </div>
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="admin-label">ADMIN</div>
-
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="dashboard.html" class="nav-link">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link active" id="myArticleLink">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>My Article</span>
-                    <i class="bi bi-chevron-down dropdown-icon"></i>
-                </a>
-                <ul class="sub-menu show" id="articleSubmenu">
-                    <li class="nav-item">
-                        <a href="my-articles.html" class="nav-link">All Article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="create-article.html" class="nav-link active">Create Article</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="categories.html" class="nav-link">
-                    <i class="bi bi-tag"></i>
-                    <span>Category</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="profile.html" class="nav-link">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-            </li>
-            <li class="nav-item" style="margin-top: 30px;">
-                <a href="#" class="nav-link logout-link" id="logoutBtn">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
-        </ul>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="menu-icon" id="menuToggle">
+        <i class="bi bi-list"></i>
+      </div>
+      <div class="sidebar-title">Blog</div>
     </div>
 
-    <!-- Main Content -->
+    <div class="admin-label">ADMIN</div>
+
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="dashboard.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link active" id="myArticleLink">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>My Article</span>
+          <i class="bi bi-chevron-down dropdown-icon ms-auto"></i>
+        </a>
+        <ul class="sub-menu" id="articleSubmenu" style="display: block;">
+          <li class="nav-item">
+            <a href="my-articles.html" class="nav-link">All Article</a>
+          </li>
+          <li class="nav-item">
+            <a href="create-article.html" class="nav-link active">Create Article</a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="categories.html" class="nav-link">
+          <i class="bi bi-tag"></i>
+          <span>Category</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="profile.html" class="nav-link">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <li class="nav-item" style="margin-top: auto;">
+        <a href="#" class="nav-link logout-link" id="logoutBtn">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
     <div class="main-content">
         <!-- Top Bar -->
         <div class="top-bar">
@@ -128,10 +309,19 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/Js/BaseURL.js"></script>
-    <script src="../assets/Js/getProfile.js"></script>
-    <script src="../assets/Js/createArticle.js"></script>
-    <script src="../assets/Js/logout.js"></script>
+
+    
+
+    
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/Js/BaseURL.js"></script>
+  <script src="../assets/Js/authCheck.js"></script>
+  <script src="../assets/Js/getProfile.js"></script>
+  <script src="../assets/Js/createArticle.js"></script>
+  <script src="../assets/Js/logout.js"></script>
+  <script src="../assets/Js/burgerMenu.js"></script>
 </body>
 </html>

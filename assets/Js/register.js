@@ -82,7 +82,7 @@ form.addEventListener("submit", (event) => {
 
         sessionStorage.setItem("isRegister", "true");
 
-        location.href = "../index.html";
+        location.href = "index.html";
       }
     });
 });

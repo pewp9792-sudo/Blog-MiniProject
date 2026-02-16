@@ -86,7 +86,7 @@ if (form) {
         sessionStorage.setItem("isLogin", "true");
         showToastSuccess("Login successful! Redirecting...");
         setTimeout(() => {
-          location.href = "pages/dashboard.html";
+           location.href = "pages/dashboard.html";
         }, 1500);
         return;
       }
@@ -134,26 +134,11 @@ if (password) {
     }
   });
 }
-  toastError.classList.add("show");
 
-  setTimeout(() => toastError.classList.remove("show"), 4000);
-}
-
-function showToastSuccess(msg) {
-
-  const toastSuccess = document.querySelector(".my-toast-success");
-  let isRegister = sessionStorage.getItem("isRegister");
-  if (isRegister) {
-    toastSuccess.innerHTML = `<i class="bi bi-check-circle-fill me-2 fs-5"></i> ${msg}`;
-    toastSuccess.classList.add("show");
-    sessionStorage.removeItem("isRegister");
-  }
-
-  setTimeout(() => toastSuccess.classList.remove("show"), 4000);
-}
-
+// Show success message if coming from registration
 document.addEventListener("DOMContentLoaded", () => {
   if (sessionStorage.getItem("isRegister")) {
-    showToastSuccess("Register successful Please login.");
+    showToastSuccess("Registration successful! Please login.");
+    sessionStorage.removeItem("isRegister");
   }
 });

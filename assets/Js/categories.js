@@ -1,7 +1,7 @@
-const BaseURL = "https://blogs2.csm.linkpc.net/api/v1";
-
-const API_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMxMiwiaWF0IjoxNzcwODg2MDk3LCJleHAiOjE3NzE0OTA4OTd9.Qi1FiiRfTiqW0UapUHtGFO-ErDGN3ttTGLYDys6AAzM";
+// Redirect to login if no token
+if (!token) {
+  location.href = "../index.html";
+}
 
 const categoriesTable = document.getElementById("categoriesTable");
 const categoryForm = document.getElementById("categoryForm");
@@ -24,9 +24,9 @@ const getItems = () => {
     </tr>
   `;
 
-  fetch(`${BaseURL}/categories`, {
+  fetch(`${baseUrl}/categories`, {
     headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
@@ -96,7 +96,7 @@ saveBtn.addEventListener("click", (event) => {
   if (!validationForm()) return;
 
   const id = categoryIdInput.value;
-  const url = id ? `${BaseURL}/categories/${id}` : `${BaseURL}/categories`;
+  const url = id ? `${baseUrl}/categories/${id}` : `${baseUrl}/categories`;
 
   const method = id ? "PUT" : "POST";
 
@@ -104,7 +104,7 @@ saveBtn.addEventListener("click", (event) => {
     method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${API_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name: nameInput.value.trim(),
@@ -143,10 +143,10 @@ window.editCategory = (id) => {
 window.deleteCategory = (id) => {
   if (!confirm("Are you sure you want to delete?")) return;
 
-  fetch(`${BaseURL}/categories/${id}`, {
+  fetch(`${baseUrl}/categories/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then(() => getItems())

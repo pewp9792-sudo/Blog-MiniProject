@@ -1,9 +1,14 @@
+// Redirect to login if no token
+if (!token) {
+  location.href = "../index.html";
+}
+
 let tbody = document.getElementById("tbody");
 let isID = null;
 
 const getArticle=()=>{
-    fetch(`${URL}/articles/own?search=&_page=1&_per_page=100&sortBy=createdAt&sortDir=asc`, {
-            headers: {Authorization:`Bearer ${getToken()}`}
+    fetch(`${baseUrl}/articles/own?search=&_page=1&_per_page=100&sortBy=createdAt&sortDir=asc`, {
+            headers: {Authorization:`Bearer ${token}`}
         })
     .then(res => res.json())
     .then(articles =>{
@@ -43,9 +48,9 @@ const updateItem = ()=>{
         "content": content.value,
         "categoryId": Number(category.value)
     }
-    fetch(URL+isID, {
+    fetch(baseUrl+isID, {
         method: "put",
-        headers: {Authorization:`Bearer ${getToken()}`,
+        headers: {Authorization:`Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
         body: JSON.stringify(article)
@@ -59,9 +64,9 @@ const updateItem = ()=>{
 //**....delet article */
 function deleteArticle(id){
     alert("Are you sure you want to delete this article?");
-    fetch(`${URL}/articles/${id}`, {
+    fetch(`${baseUrl}/articles/${id}`, {
         method: "delete",
-        headers: {Authorization:`Bearer ${getToken()}`}
+        headers: {Authorization:`Bearer ${token}`}
     })
     .then(res =>res.json())
     .then(data =>{

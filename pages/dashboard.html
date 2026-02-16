@@ -25,6 +25,12 @@
       position: fixed;
       height: 100%;
       padding-bottom: 20px;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.mobile-hidden {
+      transform: translateX(-100%);
     }
 
     .sidebar-header {
@@ -33,6 +39,70 @@
       justify-content: space-between;
       padding: 15px 20px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .menu-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    .menu-icon:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: block;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .content-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-area {
+        padding: 20px 15px;
+      }
     }
 
     .sidebar-title {
@@ -124,8 +194,13 @@
 
     .article-card {
       transition: transform 0.2s, box-shadow 0.2s;
-      border-radius: 10px;
+      border-radius: 15px;
       overflow: hidden;
+      background: white;
+      cursor: pointer;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .article-card:hover {
@@ -135,12 +210,137 @@
 
     .article-card img {
       width: 100%;
-      height: 180px;
+      height: 220px;
       object-fit: cover;
+    }
+
+    .article-card .card-body {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-card .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #1e1e2f;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .article-card .card-text {
+      color: #6c757d;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      flex-grow: 1;
+    }
+
+    .article-card .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .article-card .author-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .article-card .author-name {
+      font-weight: 500;
+      color: #495057;
+      font-size: 0.9rem;
+    }
+
+    /* Content Area Styles */
+    .content-area {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .content-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+      color: #1e1e2f;
+    }
+
+    .btn-create {
+      background: #1e1e2f;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-create:hover {
+      background: #2d2d3f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 30, 47, 0.4);
+      color: white;
+    }
+
+    .search-bar {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 12px 12px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #1e1e2f;
+      box-shadow: 0 0 0 0.2rem rgba(30, 30, 47, 0.15);
     }
   </style>
 </head>
 <body>
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -200,7 +400,7 @@
     <div class="top-bar">
       <div class="page-title">Dashboard</div>
       <div class="user-profile" id="userProfile">
-        <span class="user-name" id="userName">Admin</span>
+        <span class="user-name" id="userName">Loading...</span>
         <div class="user-avatar">
           <i class="bi bi-person-circle"></i>
         </div>
@@ -208,38 +408,41 @@
       </div>
     </div>
 
-    <!-- Articles Grid -->
-    <div class="row g-4 dashboard-container">
-      <!-- Articles will be loaded here by JavaScript -->
-    </div>
-
-    <!-- Load More Button -->
-    <div class="text-center my-4">
-      <button class="btn btn-primary" id="loadMore" style="display: none;">Load More Articles</button>
-    </div>
-          </div>
-        </div>
+    <!-- Content Area -->
+    <div class="content-area">
+      <div class="content-header">
+        <h1 class="content-title">All articles</h1>
+        <a href="create-article.html" class="btn btn-create">
+          <i class="bi bi-plus-lg"></i> Create New Article
+        </a>
       </div>
 
-      <div class="col-md-3">
-        <div class="card article-card shadow-sm">
-          <img src="https://via.placeholder.com/300x180" alt="Article Image">
-          <div class="card-body">
-            <h5 class="card-title">Article 4</h5>
-            <p class="card-text text-truncate">Content for article 4...</p>
-            <div class="d-flex align-items-center mt-3">
-              <img src="https://via.placeholder.com/30" class="rounded-circle me-2" alt="author">
-              <small class="text-muted">Author 4</small>
-            </div>
-          </div>
-        </div>
+      <!-- Search Bar -->
+      <div class="search-bar mb-4">
+        <i class="bi bi-search"></i>
+        <input type="text" class="search-input" placeholder="Search articles..." id="searchArticles">
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="row g-4 dashboard-container">
+        <!-- Articles will be loaded here by JavaScript -->
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center mt-4">
+        <button id="loadMore" class="btn btn-primary" style="display: none;">Load More</button>
       </div>
     </div>
+    
   </div>
+
+  <!-- Toast -->
+  <div class="my-toast-success alert alert-success rounded-3" style="position: fixed; top: 20px; right: 20px; display: none; min-width: 300px; z-index: 9999;">Login success!</div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/Js/BaseURL.js"></script>
+  <script src="../assets/Js/authCheck.js"></script>
   <script src="../assets/Js/getProfile.js"></script>
   <script src="../assets/Js/dashboard.js"></script>
   <script src="../assets/Js/logout.js"></script>
@@ -251,6 +454,39 @@
     myArticleLink.addEventListener('click', (e) => {
       e.preventDefault();
       articleSubmenu.style.display = articleSubmenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Burger menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+    }
+
+    if (menuToggle) {
+      menuToggle.addEventListener('click', toggleSidebar);
+    }
+
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', closeSidebar);
+    }
+
+    // Close sidebar when clicking on a link (on mobile)
+    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+      });
     });
   </script>
 </body>
